@@ -1,4 +1,5 @@
-const express = require('express')
+const express = require('express');
+const client = require('../../models/client');
 const router = express.Router();
 
 // Add Mongoose Schema ./models/client
@@ -32,6 +33,47 @@ router.post('/',(req, res)=>{
         .then(client => res.json({success : true,client}))
         .catch(err=>res.json('Save error: '+err))
  })
+
+
+ //update client
+
+router.put('/:refClient', (req, res) => {
+  Client.updateOne({
+    refClient: req.params.refClient
+}, {
+    $set: {
+      nom : req.body.nom,
+      prenom : req.body.prenom,
+      addresse : req.body.addresse,
+      telephone : req.body.telephone,
+
+    }
+}).then(client=>{res.json(client);console.log("updated")}).catch(err=>{res.json(err);console.log("noo") })
+
+  })
+  
+
+//get client by id
+router.get('/:refClient',(req, res)=>{  
+  Client.findOne({ "refClient" : req.params.refClient}).then(client=>res.json(client)) })
+
+
+
+
+//get client by name
+
+router.get('/rechercheName/:name',(req, res)=>{  
+  Client.findOne({"nom":req.params.name}).then(client=>res.json(client)) })
+
+
+
+ //get client by addresse
+
+router.get('/rechercheAddress/:add',(req, res)=>{  
+  Client.findOne({"addresse":req.params.add}).then(client=>res.json(client)) })
+  
+
+
 
 // @route   DELETE api/items/:id
 // @desc    Delete Item

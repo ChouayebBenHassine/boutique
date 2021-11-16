@@ -28,7 +28,7 @@ router.post('/',(req, res)=>{
         TVA : req.body.TVA,
         stock:req.body.stock,
         categorie:req.body.categorie,
-        image:req.body.image
+        image:req.body.image,
 
     })
     newArticle
@@ -36,6 +36,67 @@ router.post('/',(req, res)=>{
         .then(article => res.json({success : true,article}))
         .catch(err=>res.json('Save error: '+err))
  })
+
+
+
+
+//get article by id
+/**router.get('/:numArticle',(req, res)=>{  
+  Article.findOne({ numArticle : req.params.numArticle) }, function(err, post) {
+    res.json(post);})
+  });
+  */
+
+
+//get article by id
+  router.get('/:num',(req, res)=>{  
+    Article.findOne({ "numArticle" : req.params.num}).then(Art=>res.json(Art)) })
+
+
+//get article by category
+
+    router.get('/rechercheCateg/:categ',(req, res)=>{  
+      Article.findOne({"categorie.id":req.params.categ}).then(Art=>res.json(Art)) })
+      
+    
+   
+    
+//get article by name
+
+router.get('/rechercheName/:name',(req, res)=>{  
+  Article.findOne({"name":req.params.name}).then(Art=>res.json(Art)) })
+  
+
+
+
+
+
+
+//update article
+
+router.put('/:numArticle', (req, res) => {
+  Article.updateOne({
+    numArticle: req.params.numArticle
+}, {
+    $set: {
+        nom: req.body.nom,
+        designation : req.body.designation,
+        prixUnitaire : req.body.prixUnitaire,
+        promotion : req.body.promotion,
+        TVA : req.body.TVA,
+        stock:req.body.stock,
+        categorie:req.body.categorie,
+        image:req.body.image,
+
+    }
+}).then(art=>{res.json(art);console.log("updated")}).catch(err=>{res.json(err);console.log("noo") })
+
+  })
+  
+
+
+
+
 
 // @route   DELETE api/items/:id
 // @desc    Delete Item

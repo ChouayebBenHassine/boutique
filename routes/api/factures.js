@@ -33,6 +33,20 @@ router.post('/',(req, res)=>{
         .catch(err=>res.json('Save error: '+err))
  })
 
+
+
+//get facture by num
+router.get('/:numFact',(req, res)=>{  
+  Facture.findOne({ "numFact" : req.params.numFact}).then(fact=>res.json(fact)) })
+
+
+//get facture by CLIENT
+
+router.get('/rechercheClient/:client',(req, res)=>{  
+  Facture.findOne({"client.refClient":req.params.client}).then(client=>res.json(client)) })
+  
+
+
 // @route   DELETE api/items/:id
 // @desc    Delete Item
 // @access  Public
